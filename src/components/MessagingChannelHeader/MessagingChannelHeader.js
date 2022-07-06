@@ -6,7 +6,8 @@ import SwipeablemodDrawer from '../drawers/drawermodrole';
 import SwipeableuserDrawer from '../drawers/draweruserrole';
 import './MessagingChannelHeader.css';
 import { useDispatch } from 'react-redux';
-import AlertDialog from '../confirmdialog';
+import AlertDialog from '../confirmoperations/confirmdeletedialog';
+import AlertleaveDialog from '../confirmoperations/confirmleavechannel';
 import { TypingIndicator } from '../TypingIndicator/TypingIndicator';
 import { channelActions } from '../store/channelslice';
 import { ChannelInfoIcon, ChannelSaveIcon, getCleanImage, HamburgerIcon } from '../../assets';
@@ -256,7 +257,7 @@ const dispatch=useDispatch();
           { isadmin && <SwipeableadminDrawer></SwipeableadminDrawer> }
           { isuser && <SwipeableuserDrawer></SwipeableuserDrawer> }
           { ismod && <SwipeableadminDrawer></SwipeableadminDrawer> }
-      <AlertDialog></AlertDialog>
+      <AlertleaveDialog></AlertleaveDialog>
       <Demo > </Demo>
       </div>
     </div>

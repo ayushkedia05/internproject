@@ -62,6 +62,7 @@ export default function Demo() {
       >
         <Box sx={style}>
        <Userslist></Userslist>
+       <UserListmod></UserListmod>
         </Box>
       </Modal>
     </div>

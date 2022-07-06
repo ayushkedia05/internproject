@@ -11,7 +11,7 @@ import ListItemText from '@mui/material/ListItemText';
 import {DotsVertical} from 'tabler-icons-react'
 import Demo from '../dd';
 import Users from '../operations/channelusermoderatorupdate';
-import AlertDialog from '../confirmdialog';
+import AlertDialog from '../confirmoperations/confirmdeletedialog';
 import {  useChannelStateContext, useChatContext } from 'stream-chat-react';
 import { act } from 'react-dom/test-utils';
 // import InboxIcon from '@mui/icons-material/MoveToInbox';

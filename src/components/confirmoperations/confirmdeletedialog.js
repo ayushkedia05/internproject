@@ -5,7 +5,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import UserList from './operations/channelusermoderatorupdate';
+import UserList from '../operations/channelusermoderatorupdate';
 import {  useChannelStateContext, useChatContext } from 'stream-chat-react';
 
 export default function AlertDialog() {

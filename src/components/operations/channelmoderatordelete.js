@@ -67,57 +67,25 @@ const UserListmod = () => {
     const channelid=useSelector(state=>state.channel.currentid)
 
 
-  const addtheusers=()=>{
-  console.log(selectedUsers)
-  const getchanneldetails=axios.get(`http://localhost:3000/findchannel/${channelid}`)
-console.log(getchanneldetails);
-
-
-getchanneldetails.then(value=>{
-    console.log(value,"sfs")
-    console.log(value.data.data.channels.channelmoderator,'fsd')
-    setmoderators(value.data.data.channels.channelmoderator)
-
-    setmoderators((prevUsers) => [...prevUsers, ...selectedUsers])
-
-    console.log(Usersmoderator)
-
-})
-
-
-const data={
-    channelmoderator:Usersmoderator
-}
-
-const updatedetails=axios.patch(`http://localhost:3000/updatechannel/${channelid}`,data)
-
-console.log(updatedetails)
     console.log(channelid);
-  //  const getdata=
+    const getchanneldetails=axios.get(`http://localhost:3000/findchannel/${channelid}`)
+    getchanneldetails.then(value=>{
+        console.log(value,"sfs")
+        console.log(value.data.data.channels.channelmoderator,'fsd')
+        setmoderators(value.data.data.channels.channelmoderator)
+    
+        // setmoderators((prevUsers) => [...prevUsers, ...value.data.data.channels.channelmoderator])
+    
+        
+    })
 
-
-
-
-
-  }
-
-
-
-
-
-
-
-
-
-
-//   const channelid=useSelector(state=>state.channel.currentid)
 
     useEffect(() => {
         const getUsers = async () => {
             if(loading) return;
 
             setLoading(true);
-            
+            let response;
             try {
                 // const response = Object.values(channel.state?.members || {}).filter(
                 //   (member) => member.user?.id !== client.user?.id,  
@@ -127,19 +95,17 @@ console.log(updatedetails)
                 getchanneldetails.then(value=>{
                     console.log(value,"sfs")
                     console.log(value.data.data.channels.channelmoderator,'fsd')
-                    setUsers(value.data.data.channels.channelmoderator)
-                
-                    // setmoderators((prevUsers) => [...prevUsers, ...selectedUsers])
-                
-                    // console.log(Usersmoderator)
-                
+                    setmoderators(value.data.data.channels.channelmoderator)
+                     
                 })
+                const response = await client.queryUsers({ id: { $in: Usersmoderator } });
+                console.log(Usersmoderator,"ssdfs")
+                
 
 
-
-                if(users.length) {
-                  console.log(users)
-                    // setUsers(response);
+                if(response.length) {
+                //   console.log(users)
+                    setUsers(response);
                 } else {
                     setListEmpty(true);
                 }
@@ -186,7 +152,7 @@ console.log(updatedetails)
         </ListContainer>
          <Divider></Divider>
          <div className='user-list__addbutton'>
-         <Button  variant="contained" onClick={addtheusers}>Add moderators</Button>
+         <Button  variant="contained" >Add moderators</Button>
          </div>
         </>
     )
