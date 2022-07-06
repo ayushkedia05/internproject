@@ -7,6 +7,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import UserList from '../operations/channelusermoderatorupdate';
 import {  useChannelStateContext, useChatContext } from 'stream-chat-react';
+import { ListItemButton,ListItemText ,ListItem} from '@mui/material';
 
 export default function AlertleaveDialog() {
   const [open, setOpen] = React.useState(false);
@@ -29,11 +30,24 @@ export default function AlertleaveDialog() {
     window.location.reload()
   };
 
+
+  const handleClose2 = async() => {
+
+  
+
+    setOpen(false);
+    window.location.reload()
+  };
+
+
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Open alert dialog
-      </Button>
+   <ListItem>
+         <ListItemButton onClick={handleClickOpen}>
+       
+              <ListItemText primary='Leave Channel' />
+            </ListItemButton>
+            </ListItem>
       <Dialog
         open={open}
         onClose={handleClose}
@@ -52,8 +66,8 @@ export default function AlertleaveDialog() {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Disagree</Button>
-          <Button onClick={handleClose} autoFocus>
+          <Button onClick={handleClose2} autoFocus>Disagree</Button>
+          <Button onClick={handleClose} >
             Agree
           </Button>
         </DialogActions>

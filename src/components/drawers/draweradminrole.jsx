@@ -9,13 +9,17 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import {DotsVertical} from 'tabler-icons-react'
-import Demo from '../dd';
-import Users from '../operations/channelusermoderatorupdate';
-import AlertDialog from '../confirmoperations/confirmdeletedialog';
+import AlertleaveDialog from '../confirmoperations/confirmleavechannel';
+import AlertDeleteDialog from '../confirmoperations/confirmdeletedialog';
 import {  useChannelStateContext, useChatContext } from 'stream-chat-react';
 import { act } from 'react-dom/test-utils';
 // import InboxIcon from '@mui/icons-material/MoveToInbox';
 // import MailIcon from '@mui/icons-material/Mail';
+import Addmember from '../../modal/addmember';
+import Addmod from '../../modal/addmod';
+import Delmod from '../../modal/delmod';
+import Removemember from '../../modal/removemember';
+// import Divider from '@mui/material/Divider';
 
 export default function SwipeableadminDrawer() {
 
@@ -31,44 +35,7 @@ export default function SwipeableadminDrawer() {
 
 
 
-  // consy mute=
 
-
-
-  const Dooperations=async(props)=>{
- console.log(props)
-
-  if(props==='Add moderator')
-  {
-    return
-    (
-    <Demo></Demo>
-    )
-  }
-
-   if(props==='Mute Channel')
-   {
-     const check=await activeChannel.mute();
-     console.log(check)
-   }
-
-   if(props==='Delete Channel')
-   {
-    //  const check=await activeChannel.mute();
-     console.log(activeChannel.cid)
-      const cid1=activeChannel.cid;
-         return(
-        <AlertDialog></AlertDialog>)
-       
-     const response = await client.deleteChannels([cid1], {hard_delete: true});
-const result = response.result // holds deletion result
-   }
-
-
-           
-
-
-      }
    
    
    
@@ -122,16 +89,21 @@ const result = response.result // holds deletion result
     <Box
       sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}
       role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
+      // onClick={toggleDrawer(anchor, false)}
+      // onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        {['Add moderator', 'Delete Channel', 'Leave Channel'].map((text, index) => (
+        {['1'].map((text, index) => (
           <ListItem key={text} disablePadding>
-            <ListItemButton onClick={()=>Dooperations(text)}>
-         
-              <ListItemText primary={text} />
-            </ListItemButton>
+            <li>
+            <Addmember></Addmember>
+            <Divider></Divider>
+            <Addmod></Addmod>
+            <Divider></Divider>
+        <Delmod></Delmod>
+        <Divider></Divider>
+<Removemember></Removemember>
+            </li>
           </ListItem>
             // <Demo></Demo>
         ))}
@@ -140,12 +112,13 @@ const result = response.result // holds deletion result
     {/* <Demo></Demo> */}
       <Divider />
       <List>
-        {['Remove user', 'Mute Channel', 'Add members'].map((text, index) => (
+        {['1'].map((text, index) => (
           <ListItem key={text} disablePadding>
-            <ListItemButton onClick={()=>Dooperations(text)}>
-       
-              <ListItemText primary={text} />
-            </ListItemButton>
+           <li>
+            <AlertleaveDialog></AlertleaveDialog>
+            <Divider></Divider>
+             <AlertDeleteDialog></AlertDeleteDialog>
+           </li>
           </ListItem>
         ))}
       </List>

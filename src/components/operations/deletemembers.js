@@ -53,7 +53,7 @@ const UserItem = ({ user, setSelectedUsers }) => {
   );
 };
 
-const UserList = () => {
+const RemovememberList = () => {
   const { client } = useChatContext();
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -69,68 +69,42 @@ const UserList = () => {
 
   const channelid = useSelector((state) => state.channel.currentid);
 
-  const addtheusers = () => {
-    console.log(channelid);
-    //   console.log(selectedUsers)
-    const getchanneldetails = axios.get(
-      `http://localhost:3000/findchannel/${channelid}`
-    );
-    console.log(getchanneldetails);
+  const deltheusers = async(event) => {
+    event.preventDefault();
 
-    getchanneldetails.then((value) => {
-      // console.log(value,"sfs")
-      // console.log(value.data.data.channels.channelmoderator,'fsd')``
-      setmoderators(value.data.data.channels.channelmoderator);
-      
-      setmoderators((prevUsers) => [...prevUsers, ...selectedUsers]);
-      // console.log(Usersmoderator,"xx")
-      // console.log(Usersmoderator,"sss ")
-    });
+    console.log("skdbfjsbjgsjgsjvgjsjgbj")
+    const response =await channel.removeMembers(selectedUsers);
+    const result = response.result
+    window.location.reload()
 
-    const data = {
-      channelmoderator: removeDuplicates(Usersmoderator),
-    };
-    // setmoderators((prevUsers) => [...prevUsers, ...selectedUsers]);
-
-    console.log(data, "fssfd");
-    const updatedetails = axios.patch(
-      `http://localhost:3000/updatechannel/${channelid}`,
-      data
-    );
-
-    // console.log(updatedetails)
-    // console.log(channelid);
-    //  const getdata=
   };
 
   useEffect(() => {
     const getUsers = async () => {
-      if (loading) return;
+        if(loading) return;
 
-      setLoading(true);
+        setLoading(true);
+        
+        try {
+            const response = await client.queryUsers(
+                { id: { $ne: client.userID } },
+                { id: 1 },
+                { limit: 8 } 
+            );
 
-      try {
-        const response = Object.values(channel.state?.members || {}).filter(
-          (member) => member.user?.id !== client.user?.id
-        );
-
-        console.log(response, "vx");
-
-        if (response.length) {
-          console.log(response);
-          setUsers(response);
-        } else {
-          setListEmpty(true);
+            if(response.users.length) {
+                setUsers(response.users);
+            } else {
+                setListEmpty(true);
+            }
+        } catch (error) {
+           setError(true);
         }
-      } catch (error) {
-        console.log(error);
-        setError(true);
-      }
-      setLoading(false);
-    };
+        setLoading(false);
+    }
 
-    if (client) getUsers();
-  }, []);
+    if(client) getUsers()
+}, []);
 
   if (error) {
     return (
@@ -159,8 +133,8 @@ const UserList = () => {
           users?.map((user, i) => (
             <UserItem
               index={i}
-              key={user.user.id}
-              user={user.user}
+              key={user.id}
+              user={user}
               setSelectedUsers={setSelectedUsers}
             />
           ))
@@ -168,12 +142,12 @@ const UserList = () => {
       </ListContainer>
       <Divider></Divider>
       <div className="user-list__addbutton">
-        <Button variant="contained" onClick={addtheusers}>
-          Add moderators
+        <Button variant="contained" onClick={deltheusers}>
+          Add members
         </Button>
       </div>
     </>
   );
 };
 
-export default UserList;
+export default RemovememberList;

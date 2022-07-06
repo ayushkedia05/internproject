@@ -40,6 +40,10 @@ const UserItem = ({ user ,setSelectedUsers}) => {
         setSelected((prevSelected) => !prevSelected)
     }
 
+
+
+    
+
     return (
         <div className="user-item__wrapper" onClick={handleSelect}>
             <div className="user-item__name-wrapper">
@@ -67,57 +71,100 @@ const UserListmod = () => {
     const channelid=useSelector(state=>state.channel.currentid)
 
 
+
+    const addtheusers = () => {
+        console.log(channelid);
+        //   console.log(selectedUsers)
+        const getchanneldetails = axios.get(
+          `http://localhost:3000/findchannel/${channelid}`
+        );
+        console.log(getchanneldetails);
+    
+        getchanneldetails.then((value) => {
+          // console.log(value,"sfs")
+          // console.log(value.data.data.channels.channelmoderator,'fsd')``
+          setmoderators(value.data.data.channels.channelmoderator);
+    
+          setmoderators(value.data.data.channels.channelmoderator.filter((item) => !selectedUsers.includes(item)));
+          // console.log(Usersmoderator,"xx")
+          // console.log(Usersmoderator,"sss ")
+        });
+    
+        const data = {
+          channelmoderator: Usersmoderator,
+        };
+        // setmoderators((prevUsers) => [...prevUsers, ...selectedUsers]);
+    
+        console.log(data, "fssfd");
+        const updatedetails = axios.patch(
+          `http://localhost:3000/updatechannel/${channelid}`,
+          data
+        );
+    
+        console.log(updatedetails)
+        // console.log(channelid);
+        //  const getdata=
+      };
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     console.log(channelid);
-    const getchanneldetails=axios.get(`http://localhost:3000/findchannel/${channelid}`)
-    getchanneldetails.then(value=>{
-        console.log(value,"sfs")
-        console.log(value.data.data.channels.channelmoderator,'fsd')
-        setmoderators(value.data.data.channels.channelmoderator)
-    
-        // setmoderators((prevUsers) => [...prevUsers, ...value.data.data.channels.channelmoderator])
-    
-        
-    })
+  
 
 
     useEffect(() => {
-        const getUsers = async () => {
+
+        const getUsers = async () => {  
             if(loading) return;
 
             setLoading(true);
-            let response;
+        
+            // let response;
             try {
                 // const response = Object.values(channel.state?.members || {}).filter(
                 //   (member) => member.user?.id !== client.user?.id,  
                 // );
 
                 const getchanneldetails=axios.get(`http://localhost:3000/findchannel/${channelid}`)
-                getchanneldetails.then(value=>{
-                    console.log(value,"sfs")
-                    console.log(value.data.data.channels.channelmoderator,'fsd')
-                    setmoderators(value.data.data.channels.channelmoderator)
-                     
+                getchanneldetails.then(async value=>{
+            
+             
+                    const response = await client.queryUsers({ id: { $in: value.data.data.channels.channelmoderator } });               
+                    console.log(response.   users,"jhbjh");
+                    if(response.users.length) {
+                        console.log("gbkdjfg");
+                        setUsers(response.users);
+                          console.log(users)
+                    } else {
+                        setListEmpty(true);
+                    }
                 })
-                const response = await client.queryUsers({ id: { $in: Usersmoderator } });
-                console.log(Usersmoderator,"ssdfs")
-                
-
-
-                if(response.length) {
-                //   console.log(users)
-                    setUsers(response);
-                } else {
-                    setListEmpty(true);
-                }
             } catch (error) {
               console.log(error)
                setError(true);
             }
-            setLoading(false);
-        }
+           
+        // }
 
-        if(client) getUsers()
-    }, []);
+        setLoading(false);
+    }
+
+    if(client) getUsers()
+}, []);
 
     if(error) {
         return (
@@ -146,13 +193,14 @@ const UserListmod = () => {
                 Loading users...
             </div> : (
                 users?.map((user, i) => (
-                  <UserItem index={i} key={user.user.id} user={user.user} setSelectedUsers={setSelectedUsers} />  
+                  <UserItem index={i} key={user.id} user={user
+                    } setSelectedUsers={setSelectedUsers} />  
                 ))
             )}
         </ListContainer>
          <Divider></Divider>
          <div className='user-list__addbutton'>
-         <Button  variant="contained" >Add moderators</Button>
+         <Button onClick={addtheusers}>Add moderators</Button>
          </div>
         </>
     )

@@ -1,9 +1,11 @@
 
+ import { ListItemButton,ListItemText ,ListItem} from '@mui/material';
     
     
-    import AddmemberList from './operations/addmembers';
-    import Userslist from './operations/channelusermoderatorupdate';
-    import UserListmod from './operations/channelmoderatordelete';
+    // import AddmemberList from './operations/addmembers';
+    // import Userslist from './operations/channelusermoderatorupdate';
+    // import UserListmod from './operations/channelmoderatordelete';
+    import UserListmod from '../components/operations/channelmoderatordelete';
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -22,14 +24,19 @@ const style = {
   p: 4,
 };
 
-export default function Demo() {
+export default function Delmod() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   return (
     <div>
-      <Button onClick={handleOpen}>Open modal</Button>
+          <ListItem>
+         <ListItemButton onClick={handleOpen}>
+       
+              <ListItemText primary='Delete moderators' />
+            </ListItemButton>
+            </ListItem>
       <Modal
         open={open}
         onClose={handleClose}
@@ -37,7 +44,7 @@ export default function Demo() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-        <Userslist></Userslist> 
+        {/* <Userslist></Userslist>  */}
        <UserListmod></UserListmod> 
        {/* <AddmemberList></AddmemberList> */}
         </Box>
