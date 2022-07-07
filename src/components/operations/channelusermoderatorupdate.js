@@ -81,7 +81,7 @@ const UserList = () => {
       // console.log(value,"sfs")
       // console.log(value.data.data.channels.channelmoderator,'fsd')``
       setmoderators(value.data.data.channels.channelmoderator);
-      
+
       setmoderators((prevUsers) => [...prevUsers, ...selectedUsers]);
       // console.log(Usersmoderator,"xx")
       // console.log(Usersmoderator,"sss ")
@@ -98,7 +98,7 @@ const UserList = () => {
       data
     );
 
-    // console.log(updatedetails)
+    console.log(updatedetails)
     // console.log(channelid);
     //  const getdata=
   };

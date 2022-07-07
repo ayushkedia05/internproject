@@ -155,11 +155,13 @@ const dispatch=useDispatch();
            {
            setisadmin(true);
            setisuser(false);
+           setismod(false);
            }
  
            channelpresent.channelmoderator.map((moderators,int)=>{
              if(moderators===client.userID)
              {
+              setisadmin(false);
                setismod(true);
                setisuser(false);
              }
@@ -257,8 +259,7 @@ const dispatch=useDispatch();
           { isadmin && <SwipeableadminDrawer></SwipeableadminDrawer> }
           { isuser && <SwipeableuserDrawer></SwipeableuserDrawer> }
           { ismod && <SwipeableadminDrawer></SwipeableadminDrawer> }
-      <AlertleaveDialog></AlertleaveDialog>
-      <Demo > </Demo>
+     
       </div>
     </div>
   );

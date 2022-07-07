@@ -9,10 +9,22 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import {DotsVertical} from 'tabler-icons-react'
+import AlertleaveDialog from '../confirmoperations/confirmleavechannel';
+import AlertDeleteDialog from '../confirmoperations/confirmdeletedialog';
+import {  useChannelStateContext, useChatContext } from 'stream-chat-react';
+import { act } from 'react-dom/test-utils';
 // import InboxIcon from '@mui/icons-material/MoveToInbox';
 // import MailIcon from '@mui/icons-material/Mail';
+import Addmember from '../../modal/addmember';
+import Addmod from '../../modal/addmod';
+import Delmod from '../../modal/delmod';
+import Removemember from '../../modal/removemember';
+// import Divider from '@mui/material/Divider';
 
 export default function SwipeablemodDrawer() {
+
+  const { client } = useChatContext();
+  const { channel: activeChannel} = useChatContext();
   const [state, setState] = React.useState({
     top: false,
     left: false,
@@ -20,9 +32,31 @@ export default function SwipeablemodDrawer() {
     right: false,
   });
 
-   const Dooperations=(props)=>{
- console.log("sdbfs")
+
+
+
+
+   
+   
+   const handlemute=()=>{
+    const result=activeChannel.mute();
+    console.log(result);
+    console.log(activeChannel)
    }
+   
+   
+      
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -59,27 +93,42 @@ export default function SwipeablemodDrawer() {
     <Box
       sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}
       role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
+      // onClick={toggleDrawer(anchor, false)}
+      // onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+        {['1'].map((text, index) => (
           <ListItem key={text} disablePadding>
-            <ListItemButton onClick={Dooperations}>
-            
-              <ListItemText primary={text} />
-            </ListItemButton>
+            <li>
+            <Addmember></Addmember>
+            <Divider></Divider>
+            <Addmod></Addmod>
+            <Divider></Divider>
+<Removemember></Removemember>
+            </li>
           </ListItem>
+            // <Demo></Demo>
         ))}
       </List>
+        {/* <AlertDialog> </AlertDialog> */}
+    {/* <Demo></Demo> */}
       <Divider />
       <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
+        {['1'].map((text, index) => (
           <ListItem key={text} disablePadding>
-            <ListItemButton>
-     
-              <ListItemText primary={text} />
+           <li>
+            <AlertleaveDialog></AlertleaveDialog>
+            <Divider></Divider>
+             <AlertDeleteDialog></AlertDeleteDialog>
+             <Divider></Divider>
+
+             <ListItem>
+         <ListItemButton onClick={handlemute}>
+       
+              <ListItemText primary='Mute channel' />
             </ListItemButton>
+            </ListItem>
+           </li>
           </ListItem>
         ))}
       </List>
@@ -90,7 +139,7 @@ export default function SwipeablemodDrawer() {
     <div>
       {['left'].map((anchor) => (
         <React.Fragment key={anchor}>
-          <Button onClick={toggleDrawer('left', true)}><DotsVertical></DotsVertical></Button>
+          <Button onClick={toggleDrawer('left', true)}><DotsVertical color={'black'}></DotsVertical></Button>
           <SwipeableDrawer
             anchor={anchor}
             open={state[anchor]}
@@ -98,6 +147,8 @@ export default function SwipeablemodDrawer() {
             onOpen={toggleDrawer(anchor, true)}
           >
             {list(anchor)}
+              {/* <Demo></Demo> */}
+            {/* <AlertDialog></AlertDialog> */}
           </SwipeableDrawer>
         </React.Fragment>
       ))}

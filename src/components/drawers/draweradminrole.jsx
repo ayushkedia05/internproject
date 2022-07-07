@@ -38,7 +38,11 @@ export default function SwipeableadminDrawer() {
 
    
    
-   
+   const handlemute=()=>{
+    const result=activeChannel.mute();
+    console.log(result);
+    console.log(activeChannel)
+   }
    
    
       
@@ -118,6 +122,14 @@ export default function SwipeableadminDrawer() {
             <AlertleaveDialog></AlertleaveDialog>
             <Divider></Divider>
              <AlertDeleteDialog></AlertDeleteDialog>
+             <Divider></Divider>
+
+             <ListItem>
+         <ListItemButton onClick={handlemute}>
+       
+              <ListItemText primary='Mute channel' />
+            </ListItemButton>
+            </ListItem>
            </li>
           </ListItem>
         ))}
@@ -129,7 +141,7 @@ export default function SwipeableadminDrawer() {
     <div>
       {['left'].map((anchor) => (
         <React.Fragment key={anchor}>
-          <Button onClick={toggleDrawer('left', true)}><DotsVertical></DotsVertical></Button>
+          <Button onClick={toggleDrawer('left', true)}><DotsVertical color={'black'}></DotsVertical></Button>
           <SwipeableDrawer
             anchor={anchor}
             open={state[anchor]}

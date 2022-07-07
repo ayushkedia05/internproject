@@ -69,7 +69,7 @@ export default function SwipeableuserDrawer() {
     <div>
       {['left'].map((anchor) => (
         <React.Fragment key={anchor}>
-          <Button onClick={toggleDrawer('left', true)}><DotsVertical></DotsVertical></Button>
+          <Button onClick={toggleDrawer('left', true)}><DotsVertical color={'black'}></DotsVertical></Button>
           <SwipeableDrawer
             anchor={anchor}
             open={state[anchor]}

@@ -85,7 +85,7 @@ const CreateChannel = ({ onClose, toggleMobile }) => {
     }
   }, [inputText]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const createChannel = async () => {
+  const createChannel = async () => { 
     const selectedUsersIds = selectedUsers.map((u) => u.id);
 
     if (!selectedUsersIds.length) return;

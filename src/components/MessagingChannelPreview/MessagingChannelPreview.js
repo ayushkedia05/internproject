@@ -142,7 +142,7 @@ const MessagingChannelPreview = (props) => {
   const { channel, latestMessage, setActiveChannel, setIsCreating } = props;
   // console.log(latestMessage )
   //   if(latestMessage)
-  //  lastmessage=props.latestMessage.props.source
+  
   const { channel: activeChannel, client } = useContext(ChatContext);
 
   const members = Object.values(channel.state.members).filter(
