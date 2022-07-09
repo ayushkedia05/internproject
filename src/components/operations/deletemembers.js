@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import Button from "@mui/material/Button";
-import axios from "axios";
+
 import Divider from "@mui/material/Divider";
 import React, { useEffect, useState } from "react";
 import {
@@ -9,8 +9,9 @@ import {
   useChannelStateContext,
 } from "stream-chat-react";
 import "./channeluser.css";
-// import { InviteIcon } from '../assets';
+
 import { InviteIcon } from "../../assets/inviteicon";
+
 const ListContainer = ({ children }) => {
   return (
     <div className="user-list__container">
@@ -72,11 +73,14 @@ const RemovememberList = () => {
   const deltheusers = async(event) => {
     event.preventDefault();
 
-    console.log("skdbfjsbjgsjgsjvgjsjgbj")
+    try{
+
     const response =await channel.removeMembers(selectedUsers);
     const result = response.result
     window.location.reload()
-
+    }catch(err){
+      console.log(err);
+    }
   };
 
   useEffect(() => {
@@ -87,7 +91,7 @@ const RemovememberList = () => {
         
         try {
             const response = await channel.queryMembers({});
-            console.log(response);
+          
 
             if(response.members.length) {
                 setUsers(response.members);

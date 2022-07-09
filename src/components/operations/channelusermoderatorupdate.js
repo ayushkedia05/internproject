@@ -26,9 +26,6 @@ const ListContainer = ({ children }) => {
 const UserItem = ({ user, setSelectedUsers }) => {
   const [selected, setSelected] = useState(false);
 
-
-   console.log(user,"fdddddddddddddddddd");
-
   const handleSelect = () => {
     if (selected) {
       setSelectedUsers((prevUsers) =>
@@ -73,39 +70,31 @@ const UserList = () => {
   const channelid = useSelector((state) => state.channel.currentid);
 
   const addtheusers = () => {
-    console.log(channelid);
-    //   console.log(selectedUsers)
-    const getchanneldetails = axios.get(
-      `http://localhost:3000/findchannel/${channelid}`
-    );
-    console.log(getchanneldetails);
-
-    getchanneldetails.then((value) => {
-      // console.log(value,"sfs")
-      // console.log(value.data.data.channels.channelmoderator,'fsd')``
-     
-
-      const Usersmoderator= [...value.data.data.channels.channelmoderator, ...selectedUsers];
-      // console.log(Usersmoderator,"xx")
-      // console.log(Usersmoderator,"sss ")
-      
-      const data = {
-      channelmoderator: removeDuplicates(Usersmoderator),
-    };
-    // setmoderators((prevUsers) => [...prevUsers, ...selectedUsers]);
-    
-    console.log(data, "fssfd");
-    const updatedetails = axios.patch(
-      `http://localhost:3000/updatechannel/${channelid}`,
-      data
+    try {
+      const getchanneldetails = axios.get(
+        `http://localhost:3000/findchannel/${channelid}`
       );
-      
-      window.location.reload()
-    
-      
-    });
-    // console.log(channelid);
-    //  const getdata=
+
+      getchanneldetails.then((value) => {
+        const Usersmoderator = [
+          ...value.data.data.channels.channelmoderator,
+          ...selectedUsers,
+        ];
+
+        const data = {
+          channelmoderator: removeDuplicates(Usersmoderator),
+        };
+
+        const updatedetails = axios.patch(
+          `http://localhost:3000/updatechannel/${channelid}`,
+          data
+        );
+
+        window.location.reload();
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   useEffect(() => {
@@ -116,22 +105,15 @@ const UserList = () => {
 
       try {
         const response = Object.values(channel.state?.members || {}).filter(
-          (member) => (
-            // console.log(member.user.id,client.user.id,"fasf"),
-            member.user?.id !== client.user?.id)
-
+          (member) => member.user?.id !== client.user?.id
         );
 
-        console.log(response, "vx");
-
         if (response.length) {
-          console.log(response);
           setUsers(response);
         } else {
           setListEmpty(true);
         }
       } catch (error) {
-        console.log(error);
         setError(true);
       }
       setLoading(false);

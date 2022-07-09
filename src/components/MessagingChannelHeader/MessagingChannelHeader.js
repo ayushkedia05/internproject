@@ -1,21 +1,16 @@
-import React, { useEffect, useRef, useState, useLayoutEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
-// import { Search} from 'tabler-icons-react';
-import ChannelSearch from "../ChannelSearch";
 import {
   Avatar,
   getChannel,
   useChannelStateContext,
   useChatContext,
 } from "stream-chat-react";
-import Demo from "../dd";
 import SwipeableadminDrawer from "../drawers/draweradminrole";
 import SwipeablemodDrawer from "../drawers/drawermodrole";
 import SwipeableuserDrawer from "../drawers/draweruserrole";
 import "./MessagingChannelHeader.css";
 import { useDispatch } from "react-redux";
-import AlertDialog from "../confirmoperations/confirmdeletedialog";
-import AlertleaveDialog from "../confirmoperations/confirmleavechannel";
 import { TypingIndicator } from "../TypingIndicator/TypingIndicator";
 import { channelActions } from "../store/channelslice";
 import {
@@ -24,9 +19,8 @@ import {
   getCleanImage,
   HamburgerIcon,
 } from "../../assets";
-import Logoutapp from './../logout.js'
+import Logoutapp from "./../logout.js";
 import axios from "axios";
-import { ColorSwatchOff } from "tabler-icons-react";
 import Search from "../../modal/search";
 const getAvatarGroup = (members) => {
   if (members.length === 1) {
@@ -149,22 +143,21 @@ const MessagingChannelHeader = (props) => {
   const [isuser, setisuser] = useState(true);
 
   useEffect(() => {
+
+    try{
     const getchanneldetails = axios.get("http://localhost:3000/getchannel");
 
     getchanneldetails.then((value) => {
       value.data.data.channels.map((channelpresent, int) => {
-        // console.log(activeChannel.id);
         if (channelpresent.channelid === activeChannel.id) {
           dispatch(channelActions.addchannelid(channelpresent._id));
-          console.log(channelpresent._id, "gzdfgd");
+
           if (channelpresent.channeladmin === client.userID) {
             setisadmin(true);
             setisuser(false);
             setismod(false);
           }
-          
-          
-          console.log(channelpresent.channelmoderator,"ddfd",client.user.id,"fsfsafasf")  
+
           channelpresent.channelmoderator.map((moderators, int) => {
             if (moderators === client.userID) {
               setisadmin(false);
@@ -174,11 +167,12 @@ const MessagingChannelHeader = (props) => {
           });
         }
       });
-
-      console.log(isadmin);
-      console.log(ismod);
-      console.log(isuser);
     });
+
+  }catch(err){
+  console.log(err);
+  }
+
   }, []);
 
   const members = Object.values(channel.state?.members || {}).filter(
@@ -259,13 +253,8 @@ const MessagingChannelHeader = (props) => {
           ) : (
             <ChannelSaveIcon />
           ))}
-        {/* {this.ChooseRoleof()}  */}
-        {
-          console.log(isadmin, "sdfsd")
-          //  console.log(ismod)
-          //  console.log(isuser)
-        }
-        <Search/>
+
+        <Search />
         {isadmin && <SwipeableadminDrawer></SwipeableadminDrawer>}
         {isuser && <SwipeableuserDrawer></SwipeableuserDrawer>}
         {ismod && <SwipeablemodDrawer></SwipeablemodDrawer>}

@@ -69,42 +69,43 @@ const AddmemberList = () => {
 
   const channelid = useSelector((state) => state.channel.currentid);
 
-  const addtheusers = async(event) => {
+  const addtheusers = async (event) => {
     event.preventDefault();
-
-    console.log("skdbfjsbjgsjgsjvgjsjgbj")
-    const response =await channel.addMembers(selectedUsers);
-    const result = response.result
-    window.location.reload()
-
+    try {
+      const response = await channel.addMembers(selectedUsers);
+      const result = response.result;
+      window.location.reload();
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   useEffect(() => {
     const getUsers = async () => {
-        if(loading) return;
+      if (loading) return;
 
-        setLoading(true);
-        
-        try {
-            const response = await client.queryUsers(
-                { id: { $ne: client.userID } },
-                { id: 1 },
-                { limit: 8 } 
-            );
+      setLoading(true);
 
-            if(response.users.length) {
-                setUsers(response.users);
-            } else {
-                setListEmpty(true);
-            }
-        } catch (error) {
-           setError(true);
+      try {
+        const response = await client.queryUsers(
+          { id: { $ne: client.userID } },
+          { id: 1 },
+          { limit: 8 }
+        );
+
+        if (response.users.length) {
+          setUsers(response.users);
+        } else {
+          setListEmpty(true);
         }
-        setLoading(false);
-    }
+      } catch (error) {
+        setError(true);
+      }
+      setLoading(false);
+    };
 
-    if(client) getUsers()
-}, []);
+    if (client) getUsers();
+  }, []);
 
   if (error) {
     return (

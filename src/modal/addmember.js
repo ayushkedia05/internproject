@@ -1,23 +1,19 @@
+import { ListItemButton, ListItemText, ListItem } from "@mui/material";
+import AddmemberList from "../components/operations/addmembers";
 
-    
-    
- import { ListItemButton,ListItemText ,ListItem} from '@mui/material';
-    import AddmemberList from '../components/operations/addmembers';
+import * as React from "react";
+import Box from "@mui/material/Box";
 
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
+import Modal from "@mui/material/Modal";
 
 const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
   width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
+  bgcolor: "background.paper",
+  border: "2px solid #000",
   boxShadow: 24,
   p: 4,
 };
@@ -29,12 +25,11 @@ export default function Addmember() {
 
   return (
     <div>
-        <ListItem>
-         <ListItemButton onClick={handleOpen}>
-       
-              <ListItemText primary='Add members' />
-            </ListItemButton>
-            </ListItem>
+      <ListItem>
+        <ListItemButton onClick={handleOpen}>
+          <ListItemText primary="Add members" />
+        </ListItemButton>
+      </ListItem>
       <Modal
         open={open}
         onClose={handleClose}
@@ -42,9 +37,7 @@ export default function Addmember() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-        {/* <Userslist></Userslist> 
-       <UserListmod></UserListmod>  */}
-       <AddmemberList></AddmemberList>
+          <AddmemberList></AddmemberList>
         </Box>
       </Modal>
     </div>

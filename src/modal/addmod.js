@@ -1,25 +1,19 @@
+import { ListItemButton, ListItemText, ListItem } from "@mui/material";
 
- import { ListItemButton,ListItemText ,ListItem} from '@mui/material';
-    
-    
-    // import AddmemberList from './operations/addmembers';
-    // import Userslist from './operations/channelusermoderatorupdate';
-    import UserList from '../components/operations/channelusermoderatorupdate';
-    // import UserListmod from './operations/channelmoderatordelete';
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
+import UserList from "../components/operations/channelusermoderatorupdate";
+import * as React from "react";
+import Box from "@mui/material/Box";
+
+import Modal from "@mui/material/Modal";
 
 const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
   width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
+  bgcolor: "background.paper",
+  border: "2px solid #000",
   boxShadow: 24,
   p: 4,
 };
@@ -31,12 +25,11 @@ export default function Addmod() {
 
   return (
     <div>
-          <ListItem>
-         <ListItemButton onClick={handleOpen}>
-       
-              <ListItemText primary='Add moderators' />
-            </ListItemButton>
-            </ListItem>
+      <ListItem>
+        <ListItemButton onClick={handleOpen}>
+          <ListItemText primary="Add moderators" />
+        </ListItemButton>
+      </ListItem>
       <Modal
         open={open}
         onClose={handleClose}
@@ -44,10 +37,7 @@ export default function Addmod() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-            <UserList></UserList>
-        {/* <Userlist></Userlist>  */}
-       {/* <UserListmod></UserListmod>  */}
-       {/* <AddmemberList></AddmemberList> */}
+          <UserList></UserList>
         </Box>
       </Modal>
     </div>

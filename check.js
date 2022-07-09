@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { StreamChat } from 'stream-chat';
 import { Chat, Channel, ChannelList } from 'stream-chat-react';
-import Cookies from 'universal-cookie';
+import { useChecklist } from './ChecklistTasks';
+
 import '@stream-io/stream-chat-css/dist/css/index.css';
 import './App.css';
 
-import Auth from './components/Auth';
 import {
   CreateChannel,
   CustomMessage,
@@ -15,18 +15,22 @@ import {
   MessagingThreadHeader,
 } from './components';
 
+import { getRandomImage } from './assets';
 import { ChannelInner } from './components/ChannelInner/ChannelInner';
 
+const urlParams = new URLSearchParams(window.location.search);
 
+const apiKey = urlParams.get('apikey') || process.env.REACT_APP_STREAM_KEY;
+const user = urlParams.get('user') || process.env.REACT_APP_USER_ID;
+const userToken = urlParams.get('user_token') || process.env.REACT_APP_USER_TOKEN;
+const targetOrigin = urlParams.get('target_origin') || process.env.REACT_APP_TARGET_ORIGIN;
 
-const cookies = new Cookies();
+const noChannelNameFilter = urlParams.get('no_channel_name_filter') || false;
+const skipNameImageSet = urlParams.get('skip_name_image_set') || false;
 
-const apiKey = 'rc6s6y5c9g5g'
-const userToken = cookies.get("token");
-const user =cookies.get('userId')
-
-const filters = 
-   { type: 'messaging', members: { $in: [user] } }
+const filters = noChannelNameFilter
+  ? { type: 'messaging', members: { $in: [user] } }
+  : { type: 'messaging', name: 'Social Demo', demo: 'social' };
 
 const options = { state: true, watch: true, presence: true, limit: 8 };
 
@@ -35,8 +39,12 @@ const sort = {
   updated_at: -1,
 };
 
-// const userToConnect = { id: user, name: user, image: getRandomImage() };
+const userToConnect = { id: user, name: user, image: getRandomImage() };
 
+if (skipNameImageSet) {
+  delete userToConnect.name;
+  delete userToConnect.image;
+}
 
 export const GiphyContext = React.createContext({});
 
@@ -47,33 +55,31 @@ const App = () => {
   const [isMobileNavVisible, setMobileNav] = useState(false);
   const [theme, setTheme] = useState('dark');
 
-  const authToken = cookies.get("token");
+  useChecklist(chatClient, targetOrigin);
 
-  const client = StreamChat.getInstance(apiKey);
-  
-  if(authToken) {
-      client.connectUser({
-          id: cookies.get('userId'),
-          name: cookies.get('username'),
-          fullName: cookies.get('fullName'),
-          image: cookies.get('avatarURL'),
-          hashedPassword: cookies.get('hashedPassword'),
-          phoneNumber: cookies.get('phoneNumber'),
-      }, authToken)
+  useEffect(() => {
+    const initChat = async () => {
+      const client = StreamChat.getInstance(apiKey, {
+        enableInsights: true,
+        enableWSFallback: true,
+      });
+      await client.connectUser(userToConnect, userToken);
+      setChatClient(client);
+    };
 
+    initChat();
 
-
-  }
-  
+    return () => chatClient?.disconnectUser();
+  }, []); // eslint-disable-line
 
   useEffect(() => {
     const handleThemeChange = ({ data, origin }) => {
       // handle events only from trusted origin
- 
+      if (origin === targetOrigin) {
         if (data === 'light' || data === 'dark') {
           setTheme(data);
         }
-      
+      }
     };
 
     window.addEventListener('message', handleThemeChange);
@@ -107,27 +113,23 @@ const App = () => {
     return () => window.removeEventListener('resize', setAppHeight);
   }, []);
 
-  const toggleMobile = () => setMobileNav(!isMobileNavVisible); 
+  const toggleMobile = () => setMobileNav(!isMobileNavVisible);
 
   const giphyContextValue = { giphyState, setGiphyState };
 
+  if (!chatClient) return null;
 
-
-  if(!userToken) return <Auth />  
   return (
-    <Chat client={client} theme={`messaging light`}>
+    <Chat client={chatClient} theme={`messaging ${theme}`}>
       <div id='mobile-channel-list' onClick={toggleMobile}>
-       
-        {/* <ChannelSearch></ChannelSearch> */}
         <ChannelList
           filters={filters}
           sort={sort}
           options={options}
           List={(props) => (
-            
             <MessagingChannelList {...props} onCreateChannel={() => setIsCreating(!isCreating)} />
-            )}
-            Preview={(props) => <MessagingChannelPreview {...props} {...{ setIsCreating }} />}
+          )}
+          Preview={(props) => <MessagingChannelPreview {...props} {...{ setIsCreating }} />}
         />
       </div>
       <div>
@@ -147,30 +149,8 @@ const App = () => {
           </GiphyContext.Provider>
         </Channel>
       </div>
-      {/* </div> */}
     </Chat>
-
   );
 };
 
 export default App;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
