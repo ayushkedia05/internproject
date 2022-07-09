@@ -102,7 +102,7 @@ export default function SwipeablemodDrawer() {
             <li>
             <Addmember></Addmember>
             <Divider></Divider>
-            <Addmod></Addmod>
+            {/* <Addmod></Addmod> */}
             <Divider></Divider>
 <Removemember></Removemember>
             </li>

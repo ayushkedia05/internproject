@@ -26,6 +26,9 @@ const ListContainer = ({ children }) => {
 const UserItem = ({ user, setSelectedUsers }) => {
   const [selected, setSelected] = useState(false);
 
+
+   console.log(user,"fdddddddddddddddddd");
+
   const handleSelect = () => {
     if (selected) {
       setSelectedUsers((prevUsers) =>
@@ -61,7 +64,7 @@ const UserList = () => {
   const [error, setError] = useState(false);
   const { channel } = useChannelStateContext();
   const [selectedUsers, setSelectedUsers] = useState([]);
-  const [Usersmoderator, setmoderators] = useState([]);
+  // const [Usersmoderator, setmoderators] = useState([]);
 
   function removeDuplicates(arr) {
     return [...new Set(arr)];
@@ -80,25 +83,27 @@ const UserList = () => {
     getchanneldetails.then((value) => {
       // console.log(value,"sfs")
       // console.log(value.data.data.channels.channelmoderator,'fsd')``
-      setmoderators(value.data.data.channels.channelmoderator);
+     
 
-      setmoderators((prevUsers) => [...prevUsers, ...selectedUsers]);
+      const Usersmoderator= [...value.data.data.channels.channelmoderator, ...selectedUsers];
       // console.log(Usersmoderator,"xx")
       // console.log(Usersmoderator,"sss ")
-    });
-
-    const data = {
+      
+      const data = {
       channelmoderator: removeDuplicates(Usersmoderator),
     };
     // setmoderators((prevUsers) => [...prevUsers, ...selectedUsers]);
-
+    
     console.log(data, "fssfd");
     const updatedetails = axios.patch(
       `http://localhost:3000/updatechannel/${channelid}`,
       data
-    );
-
-    console.log(updatedetails)
+      );
+      
+      window.location.reload()
+    
+      
+    });
     // console.log(channelid);
     //  const getdata=
   };
@@ -111,7 +116,10 @@ const UserList = () => {
 
       try {
         const response = Object.values(channel.state?.members || {}).filter(
-          (member) => member.user?.id !== client.user?.id
+          (member) => (
+            // console.log(member.user.id,client.user.id,"fasf"),
+            member.user?.id !== client.user?.id)
+
         );
 
         console.log(response, "vx");

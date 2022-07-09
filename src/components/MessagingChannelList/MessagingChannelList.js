@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Avatar, useChatContext } from 'stream-chat-react';
-
-
+import ChannelSearch from '../ChannelSearch';
+import Search from '../../modal/search';
 // import CssBaseline from '@mui/material/CssBaseline';
 // import Box from '@mui/material/Box';
 // import Container from '@mui/material/Container';
@@ -36,20 +36,23 @@ const MessagingChannelList = ({ children, error = false, loading, onCreateChanne
     //   console.log(event.total_unread_count);  
     // })
     return (
-    
+    <>
       <div className='messaging__channel-list'>
        
         <div className='messaging__channel-list__header'>
           <Avatar image={image} name={name} size={40} />
           <div className='messaging__channel-list__header__name'>{name || id}</div>
+          
           <button className='messaging__channel-list__header__button' onClick={onCreateChannel}>
             <CreateChannelIcon />
           </button>
         </div>
-      
+        <div className='searchwrapper'>
+      {/* <ChannelSearch></ChannelSearch> */}
+      </div>
         {children}
       </div>
-
+      </>
     );
   };
 
@@ -76,7 +79,10 @@ const MessagingChannelList = ({ children, error = false, loading, onCreateChanne
     );
   }
 
-  return <ListHeaderWrapper>{children}</ListHeaderWrapper>;
+  return (<>
+  <ListHeaderWrapper>{children}</ListHeaderWrapper>;
+  {/* <ChannelSearch></ChannelSearch> */}
+  </>)
 };
 
 export default React.memo(MessagingChannelList);

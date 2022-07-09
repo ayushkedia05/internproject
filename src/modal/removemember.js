@@ -3,7 +3,7 @@
     
  import { ListItemButton,ListItemText ,ListItem} from '@mui/material';
  import AddmemberList from '../components/operations/addmembers';
-import removememberList from '../components/operations/deletemembers';
+import RemovememberList from '../components/operations/deletemembers';
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -42,7 +42,7 @@ return (
      aria-describedby="modal-modal-description"
    >
      <Box sx={style}>
-<removememberList></removememberList>
+<RemovememberList></RemovememberList>
      </Box>
    </Modal>
  </div>

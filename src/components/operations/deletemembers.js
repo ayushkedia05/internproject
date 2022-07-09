@@ -86,14 +86,11 @@ const RemovememberList = () => {
         setLoading(true);
         
         try {
-            const response = await client.queryUsers(
-                { id: { $ne: client.userID } },
-                { id: 1 },
-                { limit: 8 } 
-            );
+            const response = await channel.queryMembers({});
+            console.log(response);
 
-            if(response.users.length) {
-                setUsers(response.users);
+            if(response.members.length) {
+                setUsers(response.members);
             } else {
                 setListEmpty(true);
             }
@@ -133,8 +130,8 @@ const RemovememberList = () => {
           users?.map((user, i) => (
             <UserItem
               index={i}
-              key={user.id}
-              user={user}
+              key={user.user_id}
+              user={user.user}
               setSelectedUsers={setSelectedUsers}
             />
           ))

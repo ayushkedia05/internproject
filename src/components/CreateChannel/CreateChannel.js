@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Avatar, useChatContext } from 'stream-chat-react';
 import _debounce from 'lodash.debounce';
 import axios from 'axios';
+import uuid from 'react-uuid'
 import { XButton, XButtonBackground } from '../../assets';
 
 import './CreateChannel.css';
@@ -52,14 +53,10 @@ const CreateChannel = ({ onClose, toggleMobile }) => {
 
     try {
       const response = await client.queryUsers(
-        {
-          id: { $ne: client.userID },
-          $and: [{ name: { $autocomplete: inputText } }],
-        },
+        { id: { $ne: client.userID } },
         { id: 1 },
-        { limit: 6 },
-      );
-
+        { limit: 8 } 
+    );
       if (!response.users.length) {
         setSearchEmpty(true);
       } else {
@@ -90,7 +87,7 @@ const CreateChannel = ({ onClose, toggleMobile }) => {
 
     if (!selectedUsersIds.length) return;
 
-    const conversation = await client.channel('messaging', {
+    const conversation = await client.channel('messaging',`${uuid()}` ,{
       members: [...selectedUsersIds, client.userID],
     });
 

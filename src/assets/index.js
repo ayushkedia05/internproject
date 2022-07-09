@@ -34,7 +34,7 @@ export { LightningBoltSmall } from './LightningBoltSmall';
 export { SendIcon } from './SendIcon';
 export { XButton } from './XButton';
 export { XButtonBackground } from './XButtonBackground';
-
+export {SearchIcon} from './SearchIcon';
 const randomImages = [
   avatar1,
   avatar2,

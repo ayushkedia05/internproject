@@ -5,6 +5,7 @@ import SwipeableTemporaryDrawer from './components/drawers/drawermodrole';
 import Cookies from 'universal-cookie';
 import '@stream-io/stream-chat-css/dist/css/index.css';
 import './App.css';
+import ChannelSearch from './components/ChannelSearch';
 import Auth from './components/Auth';
 import {
   CreateChannel,
@@ -126,6 +127,8 @@ console.log(userToken);
   return (
     <Chat client={client} theme={`messaging light`}>
       <div id='mobile-channel-list' onClick={toggleMobile}>
+       
+        {/* <ChannelSearch></ChannelSearch> */}
         <ChannelList
           filters={filters}
           sort={sort}
@@ -133,8 +136,8 @@ console.log(userToken);
           List={(props) => (
             
             <MessagingChannelList {...props} onCreateChannel={() => setIsCreating(!isCreating)} />
-          )}
-          Preview={(props) => <MessagingChannelPreview {...props} {...{ setIsCreating }} />}
+            )}
+            Preview={(props) => <MessagingChannelPreview {...props} {...{ setIsCreating }} />}
         />
       </div>
       <div>
@@ -154,6 +157,7 @@ console.log(userToken);
           </GiphyContext.Provider>
         </Channel>
       </div>
+      {/* </div> */}
     </Chat>
 
   );

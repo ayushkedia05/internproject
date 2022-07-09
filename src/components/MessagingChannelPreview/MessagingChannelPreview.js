@@ -5,6 +5,8 @@ import Badge from '@mui/material/Badge';
 import './MessagingChannelPreview.css';
 import { useDispatch } from 'react-redux';
 import TemporaryDrawer from '../drawers/drawermodrole';
+
+import ChannelSearch from '../ChannelSearch';
 const getAvatarGroup = (members) => {
   if (members.length === 1) {
     return <Avatar image={getCleanImage(members[0])} name={members[0].user?.id} size={40} />;
@@ -183,7 +185,7 @@ const MessagingChannelPreview = (props) => {
   </div>}
             {<div className='online-text'>{channel.data.name || getChannelName(members)}</div>}
           </p>
-        
+      
           <p className='channel-preview__content-time'>{getTimeStamp(channel)}
           <span><Badge className='unread' color="secondary" badgeContent={unreadcount}></Badge></span>
 

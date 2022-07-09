@@ -19,8 +19,6 @@ import Addmember from '../../modal/addmember';
 import Addmod from '../../modal/addmod';
 import Delmod from '../../modal/delmod';
 import Removemember from '../../modal/removemember';
-// import Divider from '@mui/material/Divider';
-
 export default function SwipeableadminDrawer() {
 
   const { client } = useChatContext();
@@ -90,16 +88,18 @@ export default function SwipeableadminDrawer() {
   };
 
   const list = (anchor) => (
+    
     <Box
-      sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}
-      role="presentation"
-      // onClick={toggleDrawer(anchor, false)}
-      // onKeyDown={toggleDrawer(anchor, false)}
+    sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}
+    role="presentation"
+    // onClick={toggleDrawer(anchor, false)}
+    // onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
         {['1'].map((text, index) => (
           <ListItem key={text} disablePadding>
             <li>
+            {/* <ChannelSearch></ChannelSearch> */}
             <Addmember></Addmember>
             <Divider></Divider>
             <Addmod></Addmod>

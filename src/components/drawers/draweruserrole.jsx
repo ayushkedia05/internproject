@@ -9,16 +9,73 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import {DotsVertical} from 'tabler-icons-react'
+import AlertleaveDialog from '../confirmoperations/confirmleavechannel';
+import AlertDeleteDialog from '../confirmoperations/confirmdeletedialog';
+import {  useChannelStateContext, useChatContext } from 'stream-chat-react';
+import { act } from 'react-dom/test-utils';
 // import InboxIcon from '@mui/icons-material/MoveToInbox';
 // import MailIcon from '@mui/icons-material/Mail';
+import Addmember from '../../modal/addmember';
+import Addmod from '../../modal/addmod';
+import Delmod from '../../modal/delmod';
+import Removemember from '../../modal/removemember';
+// import Divider from '@mui/material/Divider';
 
 export default function SwipeableuserDrawer() {
+
+  const { client } = useChatContext();
+  const { channel: activeChannel} = useChatContext();
   const [state, setState] = React.useState({
     top: false,
     left: false,
     bottom: false,
     right: false,
   });
+
+
+
+
+
+   
+   
+   const handlemute=()=>{
+    const result=activeChannel.mute();
+    console.log(result);
+    console.log(activeChannel)
+   }
+   
+   
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -36,29 +93,38 @@ export default function SwipeableuserDrawer() {
     <Box
       sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}
       role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
+      // onClick={toggleDrawer(anchor, false)}
+      // onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+        {['1'].map((text, index) => (
           <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ?<span>p</span>: <span>p</span>}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
+            <li>
+            <Addmember></Addmember>
+          <Divider></Divider>
+            </li>
           </ListItem>
+            // <Demo></Demo>
         ))}
       </List>
-      <Divider />
+        {/* <AlertDialog> </AlertDialog> */}
+    {/* <Demo></Demo> */}
+  
       <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
+        {['1'].map((text, index) => (
           <ListItem key={text} disablePadding>
-            <ListItemButton>
+           <li>
+            <AlertleaveDialog></AlertleaveDialog>
+            <Divider></Divider>
              
-              <ListItemText primary={text} />
+
+             <ListItem>
+         <ListItemButton onClick={handlemute}>
+       
+              <ListItemText primary='Mute channel' />
             </ListItemButton>
+            </ListItem>
+           </li>
           </ListItem>
         ))}
       </List>
@@ -77,6 +143,8 @@ export default function SwipeableuserDrawer() {
             onOpen={toggleDrawer(anchor, true)}
           >
             {list(anchor)}
+              {/* <Demo></Demo> */}
+            {/* <AlertDialog></AlertDialog> */}
           </SwipeableDrawer>
         </React.Fragment>
       ))}
